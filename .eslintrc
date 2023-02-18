@@ -25,10 +25,7 @@
       "error",
       { "fixMixedExportsWithInlineTypeSpecifier": false }
     ],
-    "@typescript-eslint/consistent-type-imports": [
-      "error",
-      { "prefer": "type-imports" }
-    ],
+    "@typescript-eslint/consistent-type-imports": ["error", { "prefer": "type-imports" }],
     "@typescript-eslint/no-misused-promises": "off", // ANCHOR: 무슨 옵션인지 정확히 알 수 없으나, callback 처리가 잘 안됨
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/no-floating-promises": "off",
@@ -68,9 +65,11 @@
       }
     ],
     "import/prefer-default-export": "off",
+    "import/no-extraneous-dependencies": "off",
     "jsx-a11y/click-events-have-key-events": "off",
     "jsx-a11y/no-static-element-interactions": "off",
     "no-underscore-dangle": "off",
+    "no-restricted-syntax": "off",
     "react/function-component-definition": [
       "error",
       {
