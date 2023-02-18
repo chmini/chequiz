@@ -1,12 +1,12 @@
-import path from 'path';
+import path from "path";
 
-import DotenvPlugin from 'dotenv-webpack';
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import BundleAnalyzerPlugin from 'webpack-bundle-analyzer';
+import DotenvPlugin from "dotenv-webpack";
+import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import BundleAnalyzerPlugin from "webpack-bundle-analyzer";
 
-import type { Configuration as WebpackConfiguration } from 'webpack';
-import type { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
+import type { Configuration as WebpackConfiguration } from "webpack";
+import type { Configuration as WebpackDevServerConfiguration } from "webpack-dev-server";
 
 interface Configuration extends WebpackConfiguration {
   devserver?: WebpackDevServerConfiguration;
@@ -17,55 +17,55 @@ type WebpackArguments = {
 };
 
 export default (env: NodeJS.ProcessEnv, argv: WebpackArguments) => {
-  const isProdcution = argv.mode === 'production';
-  const isDevelopment = argv.mode === 'development';
+  const isProdcution = argv.mode === "production";
+  const isDevelopment = argv.mode === "development";
 
   const config: Configuration = {
     resolve: {
-      extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      extensions: [".js", ".jsx", ".ts", ".tsx"],
       alias: {
         // ANCHOR: '@' 경로는 삭제 예정이므로, import시 하위 폴더 alias로 import 변경
-        '@': path.resolve(__dirname, 'src'),
-        '@api': path.resolve(__dirname, 'src/api'),
-        '@components': path.resolve(__dirname, 'src/components'),
-        '@constants': path.resolve(__dirname, 'src/constants'),
-        '@contexts': path.resolve(__dirname, 'src/contexts'),
-        '@hooks': path.resolve(__dirname, 'src/hooks'),
-        '@pages': path.resolve(__dirname, 'src/pages'),
-        '@routes': path.resolve(__dirname, 'src/routes'),
-        '@styles': path.resolve(__dirname, 'src/styles'),
-        '@utils': path.resolve(__dirname, 'src/utils'),
+        "@": path.resolve(__dirname, "src"),
+        "@api": path.resolve(__dirname, "src/api"),
+        "@components": path.resolve(__dirname, "src/components"),
+        "@constants": path.resolve(__dirname, "src/constants"),
+        "@contexts": path.resolve(__dirname, "src/contexts"),
+        "@hooks": path.resolve(__dirname, "src/hooks"),
+        "@pages": path.resolve(__dirname, "src/pages"),
+        "@routes": path.resolve(__dirname, "src/routes"),
+        "@styles": path.resolve(__dirname, "src/styles"),
+        "@utils": path.resolve(__dirname, "src/utils"),
       },
     },
-    entry: './src/index.tsx',
+    entry: "./src/index.tsx",
     output: {
-      filename: 'static/js/[name].[contenthash:8].js',
-      chunkFilename: 'static/js/[name].[contenthash:8].js',
-      path: path.resolve(__dirname, 'dist'),
-      publicPath: '/',
+      filename: "static/js/[name].[contenthash:8].js",
+      chunkFilename: "static/js/[name].[contenthash:8].js",
+      path: path.resolve(__dirname, "dist"),
+      publicPath: "/",
       clean: true,
     },
     module: {
       rules: [
         {
           test: /\.tsx?$/,
-          use: 'babel-loader',
+          use: "babel-loader",
           exclude: /node_modules/,
         },
         {
           test: /\.s?css$/,
-          use: ['style-loader', 'css-loader', 'sass-loader'],
+          use: ["style-loader", "css-loader", "sass-loader"],
         },
         {
           test: /\.(png|jpg|jpeg|gif)$/i,
-          type: 'asset/resource',
+          type: "asset/resource",
         },
       ],
     },
     plugins: [
       new HtmlWebpackPlugin({
         inject: true,
-        template: path.resolve(__dirname, 'public/index.html'),
+        template: path.resolve(__dirname, "public/index.html"),
         ...(isProdcution
           ? {
               minify: {
@@ -90,11 +90,11 @@ export default (env: NodeJS.ProcessEnv, argv: WebpackArguments) => {
         systemvars: true,
       }),
       new BundleAnalyzerPlugin.BundleAnalyzerPlugin({
-        analyzerMode: 'static',
-        reportFilename: 'bundle-report.html',
+        analyzerMode: "static",
+        reportFilename: "bundle-report.html",
         openAnalyzer: false,
         generateStatsFile: true,
-        statsFilename: 'bundle-stats.json',
+        statsFilename: "bundle-stats.json",
       }),
     ],
     devServer: {
@@ -104,9 +104,10 @@ export default (env: NodeJS.ProcessEnv, argv: WebpackArguments) => {
     },
     optimization: {
       splitChunks: {
-        chunks: 'all',
+        chunks: "all",
       },
     },
+    devtool: "source-map",
   };
 
   return config;
