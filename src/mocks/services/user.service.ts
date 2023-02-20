@@ -1,31 +1,21 @@
-import localforage from "localforage";
+import db from "../db";
 
 import type { User } from "../types/user.type";
 
-const createUserService = () => {
-  const _userStore = localforage.createInstance({
-    driver: localforage.INDEXEDDB,
-    name: "users",
-  });
+const addUser = (user: User) => db.users.add(user);
 
-  return {
-    async createUser(user: User) {
-      await _userStore.setItem(user.email, user);
-    },
-    async readUser(email: string) {
-      const user = await _userStore.getItem<User>(email);
+const getAllUsers = () => db.users.toArray();
 
-      return user;
-    },
-    async readAllUsers() {
-      const users: User[] = [];
-      await _userStore.iterate<User, void>((user) => {
-        users.push(user);
-      });
+const getUserById = (id: string) => db.users.get(id);
 
-      return users;
-    },
-  };
+const getUserByEmail = (email: string) => db.users.get({ email });
+
+const getUserByNickname = (nickname: string) => db.users.get({ nickname });
+
+export default {
+  addUser,
+  getAllUsers,
+  getUserById,
+  getUserByEmail,
+  getUserByNickname,
 };
-
-export const userService = createUserService();
